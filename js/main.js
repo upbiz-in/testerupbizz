@@ -17,28 +17,50 @@
 
    /* preloader
     * -------------------------------------------------- */
-    const ssPreloader = function() {
+    const words = [
+      "Hello",
+      "Bonjour",
+      "Ciao",
+      "Olà",
+      "سلام",
+      "やあ",
+      "Hallå",
+      "Guten Tag",
+      "Hallo"
+    ];
 
-        const siteBody = document.querySelector('body');
-        const preloader = document.querySelector('#preloader');
-        if (!preloader) return;
+    const preloader = document.getElementById("preloader");
+    const textEl = document.querySelector(".preloader-text");
+    const path = document.querySelector("#preloader-bg path");
 
-        html.classList.add('ss-preload');
-        
-        window.addEventListener('load', function() {
-            html.classList.remove('ss-preload');
-            html.classList.add('ss-loaded');
-            
-            preloader.addEventListener('transitionend', function afterTransition(e) {
-                if (e.target.matches('#preloader'))  {
-                    siteBody.classList.add('ss-show');
-                    e.target.style.display = 'none';
-                    preloader.removeEventListener(e.type, afterTransition);
-                }
-            });
-        });
+    let i = 0;
 
-    }; // end ssPreloader
+    function showNextWord() {
+      textEl.style.opacity = 0;
+      setTimeout(() => {
+        textEl.textContent = words[i];
+        textEl.style.opacity = 1;
+        i++;
+        if (i < words.length) {
+          setTimeout(showNextWord, 500);
+        } else {
+          endPreloader();
+        }
+      }, 300);
+    }
+
+    function endPreloader() {
+      // Animate wave curve flattening
+      path.setAttribute("d", "M0,100 Q50,100 100,100 L100,0 L0,0 Z");
+      document.body.classList.add("loaded");
+      setTimeout(() => preloader.remove(), 1000);
+    }
+
+    // Start animation slightly after DOM ready
+    setTimeout(() => {
+      path.setAttribute("d", "M0,100 Q50,130 100,100 L100,0 L0,0 Z");
+      showNextWord();
+    }, 300);
 
 
    /* mobile menu
@@ -382,5 +404,6 @@
         ssMoveTo();
 
     })();
+
 
 })(document.documentElement);
