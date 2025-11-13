@@ -54,6 +54,15 @@
       path.setAttribute("d", "M0,100 Q50,100 100,100 L100,0 L0,0 Z");
       document.body.classList.add("loaded");
       setTimeout(() => preloader.remove(), 1000);
+      path.setAttribute("d", "M0,100 Q50,100 100,100 L100,0 L0,0 Z");
+      path.animate(
+        [
+          { d: "path('M0,100 Q50,130 100,100 L100,0 L0,0 Z')" },
+          { d: "path('M0,100 Q50,100 100,100 L100,0 L0,0 Z')" }
+        ],
+        { duration: 800, easing: "cubic-bezier(0.76,0,0.24,1)" }
+      );
+
     }
 
     // Start animation slightly after DOM ready
@@ -407,3 +416,4 @@
 
 
 })(document.documentElement);
+
